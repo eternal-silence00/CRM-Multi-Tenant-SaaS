@@ -25,4 +25,8 @@ class OrganizationRepo:
         result = await self.session.execute(select(Organization).where(Organization.id == organization_id))
         return result.scalar_one_or_none()
     
+    async def get_organization_by_name(self, name: str):
+        result = await self.session.execute(select(Organization).where(Organization.name == name))
+        return result.scalar_one_or_none()
+    
     
