@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     REDIS_URL: str
     SECRET_KEY: str
     ALGORITHM: str
-    base_url = "http://localhost:8000"
+    base_url: str = "http://localhost:8000"
     
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
     
