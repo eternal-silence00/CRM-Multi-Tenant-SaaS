@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.services.auth import hash_password, verify_password, create_access_token
-from app.schemas.auth import UserCreate, UserResponse, TokenResponse
+from app.schemas.auth import UserCreate, UserResponse, TokenResponse, UserLogin
 from app.repositories.user import UserRepo
 from app.repositories.organization import OrganizationRepo
 
@@ -27,7 +27,7 @@ async def register(
 
 @router.post("/auth/login", response_model=TokenResponse, status_code=200)
 async def login(
-    data: UserCreate,
+    data: UserLogin,
     session: AsyncSession = Depends(get_db)
 ):
     repo = UserRepo(session)
