@@ -56,13 +56,13 @@ async def client_with_token():
             "description": "Test"
         })
         org_id = org_response.json()["id"]
-        await client.post("/register",
+        await client.post("/auth/register",
                           json={
                               "email": "test@mail.com",
                               "password": "test123",
                               "organization_id": org_id
                           })
-        response = await client.post("/login",
+        response = await client.post("/auth/login",
                                      json={
                                          "email": "test@mail.com",
                                          "password": "test123"
