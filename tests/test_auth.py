@@ -1,6 +1,6 @@
 async def test_register(async_client):
     org_response = await async_client.post("/organization", json={
-        "name": "Test Org",
+        "name": "Auth Test Org",
         "description": "Test"
     })
     org_id = org_response.json()["id"]

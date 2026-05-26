@@ -58,16 +58,21 @@ async def client_with_token():
         org_id = org_response.json()["id"]
         await client.post("/auth/register",
                           json={
-                              "email": "test@mail.com",
+                              "email": "testtoken@mail.com",
                               "password": "test123",
                               "organization_id": org_id
                           })
         response = await client.post("/auth/login",
                                      json={
-                                         "email": "test@mail.com",
+                                         "email": "testtoken@mail.com",
                                          "password": "test123"
                                      })
         token = response.json()["access_token"]
         client.headers["Authorization"] = f"Bearer {token}"
+        client._org_id = org_id
         yield client
     app.dependency_overrides.clear()
+    
+@pytest.fixture(scope="session")
+async def user_org_id(client_with_token):
+    return client_with_token._org_id
