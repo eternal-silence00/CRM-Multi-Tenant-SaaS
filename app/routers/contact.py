@@ -27,7 +27,8 @@ async def create_contact(
         raise HTTPException(status_code=400, detail="Not allowed")
     contact = await repo.create_contact(data.organization_id, data.name, data.email, data.phone)
     keys = await redis_client.keys(f"contacts:{data.organization_id}:*")
-    await redis_client.delete(*keys)
+    if keys:
+        await redis_client.delete(*keys)
     return contact
 
 @router.get("/contact/organization/{organization_id}")
