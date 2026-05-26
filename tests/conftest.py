@@ -86,3 +86,23 @@ async def contact_id(client_with_token, user_org_id):
         "phone": "77000000000"
     })
     return response.json()["id"]
+
+@pytest.fixture(scope="session")
+async def deal_contact_id(client_with_token, user_org_id):
+    response = await client_with_token.post("/contact", json={
+        "organization_id": user_org_id,
+        "name": "Deal Contact",
+        "email": "dealcontact@mail.com",
+        "phone": "77111111111"
+    })
+    return response.json()["id"]
+
+@pytest.fixture(scope="session")
+async def deal_id(client_with_token, deal_contact_id):
+    response = await client_with_token.post("/deal", json={
+        "contact_id": deal_contact_id,
+        "title": "Test Deal",
+        "amount": 1000.0,
+        "status": "New"
+    })
+    return response.json()["id"]
