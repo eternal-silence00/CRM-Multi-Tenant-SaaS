@@ -76,3 +76,13 @@ async def client_with_token():
 @pytest.fixture(scope="session")
 async def user_org_id(client_with_token):
     return client_with_token._org_id
+
+@pytest.fixture(scope="session")
+async def contact_id(client_with_token, user_org_id):
+    response = await client_with_token.post("/contact", json={
+        "organization_id": user_org_id,
+        "name": "Fixture Contact",
+        "email": "fixture@mail.com",
+        "phone": "77000000000"
+    })
+    return response.json()["id"]
